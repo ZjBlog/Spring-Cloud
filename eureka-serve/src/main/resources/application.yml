@@ -1,0 +1,21 @@
+---
+#单节点
+spring:
+  profiles: peer
+server:
+  port: 8761
+eureka:
+  # false关闭自我保护机制 线上不要改
+  server:
+    enable-self-preservation: true
+    # 清理不可用服务间隔 默认60 * 1000 线上不要改
+    eviction-interval-timer-in-ms: 30000
+  instance:
+    hostname: peer
+  client:
+    #    这两项配置是表明自己是服务端,不用注册到服务端
+    registerWithEureka: false
+    fetchRegistry: false
+    #    默认服务地址
+    serviceUrl:
+      defaultZone: http://peer:${server.port}/eureka/
