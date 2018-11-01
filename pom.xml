@@ -11,6 +11,7 @@
     <name>Cloud</name>
     <!--子模块工厂配置-->
     <modules>
+        <module>eureka-client-db</module>
         <module>eureka-serve</module>
         <module>eureka-client-user</module>
     </modules>

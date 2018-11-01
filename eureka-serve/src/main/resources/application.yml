@@ -19,3 +19,57 @@ eureka:
     #    默认服务地址
     serviceUrl:
       defaultZone: http://peer:${server.port}/eureka/
+# 多节点
+# aplication.name 必须一样
+# 服务地址不应该是ip的形式
+#
+---
+spring:
+  profiles: peer1
+  application:
+    name: eureka-serve
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: peer1
+    #向服务端注册使用hostname而不是ip地址的形式
+    #true用ip地址注册 同一台服务器多个实例 一定用false
+    prefer-ip-address: false
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://peer3:8763/eureka/,http://peer2:8762/eureka/
+---
+spring:
+  profiles: peer2
+  application:
+    name: eureka-serve
+server:
+  port: 8762
+eureka:
+  instance:
+    hostname: peer2
+    prefer-ip-address: false
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://peer1:8761/eureka/,http://peer3:8763/eureka/
+---
+spring:
+  profiles: peer3
+  application:
+    name: eureka-serve
+server:
+  port: 8763
+eureka:
+  instance:
+    hostname: peer3
+    prefer-ip-address: false
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://peer2:8762/eureka/,http://peer1:8761/eureka/

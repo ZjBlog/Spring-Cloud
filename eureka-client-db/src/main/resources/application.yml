@@ -1,0 +1,36 @@
+---
+server:
+  port: 9088
+spring:
+  profiles: db1
+  application:
+    name: db-service-1
+eureka:
+  #更改Eureka更新频率将打破服务器的自我保护功能，生产环境下不建议自定义这些配置。
+  instance:
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+  client:
+    # 开启健康检测
+    healthcheck: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+---
+server:
+  port: 9089
+spring:
+  profiles: db2
+  application:
+    name: db-service-1
+eureka:
+  instance:
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+  client:
+    healthcheck: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
