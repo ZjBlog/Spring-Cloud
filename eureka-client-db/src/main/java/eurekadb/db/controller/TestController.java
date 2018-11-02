@@ -1,5 +1,6 @@
 package eurekadb.db.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,9 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
-    @GetMapping("/db/test")
-    public String test(){
+    @Value("${server.port}")
+    String port;
 
-        return "ok";
+    @GetMapping("/db")
+    public String test(){
+        try {
+            Thread.sleep(3*1000);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "Hi,I am " + port;
     }
 }
