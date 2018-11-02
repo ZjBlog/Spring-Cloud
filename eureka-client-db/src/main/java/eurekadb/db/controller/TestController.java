@@ -15,12 +15,7 @@ public class TestController {
     String port;
 
     @GetMapping("/db")
-    public String test(){
-        try {
-            Thread.sleep(3*1000);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+    public String test() {
         return "Hi,I am " + port;
     }
 }

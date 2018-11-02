@@ -2,6 +2,8 @@
 #单节点
 spring:
   profiles: peer
+  application:
+    name: eureka-serve
 server:
   port: 8761
 eureka:
@@ -12,8 +14,16 @@ eureka:
     eviction-interval-timer-in-ms: 30000
     # 比值
     renewal-percent-threshold: 0.85
+    #默认五分钟显示提示信息
+    # wait-time-in-ms-when-sync-empty:
+    #心跳阈值重新计算的周期 默认是15分钟可以改小一点,比如5分钟=5601000
+    #renewal-threshold-update-interval-ms:
   instance:
     hostname: peer
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔心跳（默认30秒）
+    lease-renewal-interval-in-seconds: 10
   client:
     #    这两项配置是表明自己是服务端,不用注册到服务端
     registerWithEureka: false
@@ -21,6 +31,7 @@ eureka:
     #    默认服务地址
     serviceUrl:
       defaultZone: http://peer:${server.port}/eureka/
+
 # 多节点
 # aplication.name 必须一样
 # 服务地址不应该是ip的形式

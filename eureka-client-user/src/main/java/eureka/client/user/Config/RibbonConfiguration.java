@@ -27,7 +27,8 @@ public class RibbonConfiguration {
      */
     @Bean
     public IRule ribbonRule(IClientConfig config) {
-        return new WeightedResponseTimeRule();
+        //return new WeightedResponseTimeRule();
+        return  new RandomRule();
     }
 
     /**
