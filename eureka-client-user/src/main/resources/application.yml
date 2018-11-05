@@ -41,9 +41,9 @@ feign:
       db-service:
         loggerLevel: full
 #配置 db-service的负载策略
-#db-service:
-#  ribbon:
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+db-service:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
 #配置全局的超时时间
 ribbon:
   ReadTimeout: 6000

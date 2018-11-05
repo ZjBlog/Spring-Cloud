@@ -4,6 +4,11 @@ spring:
   profiles: peer
   application:
     name: eureka-serve
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: user
 server:
   port: 8761
 eureka:
@@ -31,6 +36,9 @@ eureka:
     #    默认服务地址
     serviceUrl:
       defaultZone: http://peer:${server.port}/eureka/
+security:
+  basic:
+    enabled: false
 
 # 多节点
 # aplication.name 必须一样

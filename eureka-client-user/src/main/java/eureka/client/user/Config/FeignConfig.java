@@ -2,6 +2,7 @@ package eureka.client.user.Config;
 
 import feign.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.support.BasicAuthorizationInterceptor;
 
 /**
  * 注意：此类如果被spring的上下文扫描到了（加了@Configuration注解），那么就是一个全局的配置，对所有的FeignClient都生效
@@ -65,6 +66,7 @@ public class FeignConfig {
      */
     @Bean
     public RequestInterceptor tokenRequestInterceptor() {
-        return template -> template.header("token", "1234567890");
+        //new BasicAuthorizationInterceptor("root","admin")
+       return template -> template.header("token", "1234567890");
     }
 }
