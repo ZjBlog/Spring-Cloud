@@ -20,6 +20,34 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     #续约更新时间间隔（默认30秒）
     lease-renewal-interval-in-seconds: 10
+#开启hystrix的支持
+# 配置对请求的内容的压缩,有了上面spring boot的压缩，此处feign的压缩可以不用
+feign:
+  hystrix:
+    enabled: false
+  compression:
+    request:
+      enabled: true
+      mime-types: ["text/xml", "application/xml", "application/json"]
+      min-request-size: 512
+    response:
+      enabled: true
+  client:
+    config:
+      # key 为default时表示的是全局配置
+      default:
+        loggerLevel: basic
+      # 为具体的服务提供者的spring.application.name的值，表示单独为这个工程配置
+      db-service:
+        loggerLevel: full
+#配置 db-service的负载策略
+#db-service:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+#配置全局的超时时间
+ribbon:
+  ReadTimeout: 6000
+  ConnectTimeout: 6000
 ---
 server:
   port: 8089

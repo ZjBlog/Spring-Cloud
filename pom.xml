@@ -11,6 +11,7 @@
     <name>Cloud</name>
     <!--子模块工厂配置-->
     <modules>
+        <module>eureka-client-order</module>
         <module>eureka-client-db</module>
         <module>eureka-serve</module>
         <module>eureka-client-user</module>
@@ -56,6 +57,15 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
 

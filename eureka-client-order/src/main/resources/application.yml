@@ -1,0 +1,27 @@
+---
+server:
+  port: 7088
+spring:
+  application:
+    name: order-service
+eureka:
+  # 实例的id  默认是myhost:myappname:port  可以配置更改
+  #  instance:
+  #    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  client:
+    # 开启健康检测
+    healthcheck: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  #更改Eureka更新频率将打破服务器的自我保护功能，生产环境下不建议自定义这些配置。
+  instance:
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+#配置 db-service的负载策略
+#db-service:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+
+

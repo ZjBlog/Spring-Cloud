@@ -1,6 +1,7 @@
 package eureka.client.user.controller;
 
 import eureka.client.user.Service.FeignService;
+import eureka.client.user.Service.HystrixService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -19,6 +20,10 @@ public class TestController {
 
     @Autowired
     FeignService feignService;
+
+
+    @Autowired
+    HystrixService hystrixService;
 
 
     @GetMapping("/user")
@@ -45,6 +50,16 @@ public class TestController {
     public String test4(){
 
         return  feignService.str1();
+    }
+
+    @GetMapping("/user5")
+    public String test5(){
+        return  hystrixService.test();
+    }
+
+    @GetMapping("/user6")
+    public String test6(){
+        return  hystrixService.test1();
     }
 
 }
