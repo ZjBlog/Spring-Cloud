@@ -1,5 +1,7 @@
 package eureka.client.user.controller;
 
+import eureka.client.user.Service.DbServiceFeign;
+import eureka.client.user.Service.DbServiceFeign2;
 import eureka.client.user.Service.FeignService;
 import eureka.client.user.Service.HystrixService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,12 @@ public class TestController {
 
     @Autowired
     HystrixService hystrixService;
+
+    @Autowired
+    DbServiceFeign dbServiceFeign;
+
+    @Autowired
+    DbServiceFeign2 dbServiceFeign2;
 
 
     @GetMapping("/user")
@@ -61,5 +69,17 @@ public class TestController {
     public String test6(){
         return  hystrixService.test1();
     }
+
+    @GetMapping("/user7")
+    public String test7(){
+        return  dbServiceFeign.str();
+    }
+
+
+    @GetMapping("/user8")
+    public String test8(){
+        return  dbServiceFeign2.str();
+    }
+
 
 }

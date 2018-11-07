@@ -4,11 +4,6 @@ spring:
   profiles: peer
   application:
     name: eureka-serve
-  security:
-    user:
-      name: admin
-      password: admin
-      roles: user
 server:
   port: 8761
 eureka:

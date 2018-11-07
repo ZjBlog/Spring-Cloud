@@ -24,7 +24,7 @@ eureka:
 # 配置对请求的内容的压缩,有了上面spring boot的压缩，此处feign的压缩可以不用
 feign:
   hystrix:
-    enabled: false
+    enabled: true
   compression:
     request:
       enabled: true
@@ -48,6 +48,19 @@ db-service:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+#hystrix超时设置  default默认超时设置默认 1000  test1指定方法超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000
+    test:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 7000
 ---
 server:
   port: 8089
