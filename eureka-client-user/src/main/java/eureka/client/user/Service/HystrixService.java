@@ -1,5 +1,6 @@
 package eureka.client.user.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,6 @@ public class HystrixService {
     public String test1(){
         return restTemplate.getForObject("http://db-service/db",String.class);
     }
-
 
     @HystrixCommand(fallbackMethod = "error")
     public String test(){

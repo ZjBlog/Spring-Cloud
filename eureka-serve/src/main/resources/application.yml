@@ -4,6 +4,10 @@ spring:
   profiles: peer
   application:
     name: eureka-serve
+  data:
+    jpa:
+      repositories:
+        enabled: false
 server:
   port: 8761
 eureka:
