@@ -3,9 +3,13 @@ package eureka.client.user.Service;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import eureka.client.user.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author : ZJ
@@ -33,15 +37,27 @@ public class HystrixService {
             @HystrixProperty(name = "execution.timeout.enabled", value = "true"),
             @HystrixProperty(name ="execution.isolation.thread.timeoutInMilliseconds",value = "7000")
     },fallbackMethod = "error")
-    public String test1(){
+    public String test(){
         return restTemplate.getForObject("http://db-service/db",String.class);
     }
 
     @HystrixCommand(fallbackMethod = "error")
-    public String test(){
-
+    public String test1(){
         return feignService.str();
     }
+
+    //https://blog.csdn.net/xiao_jun_0820/article/details/78423985
+    //@HystrixCollapser()
+    public List<User> test2(){
+
+        Collections.emptyList();
+        return null;
+    }
+
+//    @HystrixCommand(fallbackMethod = "error")
+//    public User test2(){
+//
+//    }
 
     public String error() {
         return "sorry,error!";

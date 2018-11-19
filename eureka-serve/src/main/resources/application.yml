@@ -1,6 +1,12 @@
 ---
 #单节点
 spring:
+  # spring-boot 2.0.1.RELEASE
+  # 和spring-boot-actuator 数据源引入冲突
+  #  加这句话否则会报数据源循环引入问题,2.0.5已修复
+  #  cloud:
+  #    refresh:
+  #      refreshable: none
   profiles: peer
   application:
     name: eureka-serve
@@ -8,6 +14,13 @@ spring:
     jpa:
       repositories:
         enabled: false
+  datasource:
+    username: admin
+    #driver-class-name: org.h2.Driver
+    #Establishing SSL connection without server's identity verification is not recommened 加上useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/bgcz?zeroDateTimeBehavior=convertToNull&useSSL=false&autoReconnect=true&characterEncoding=utf-8
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
 server:
   port: 8761
 eureka:
@@ -35,10 +48,6 @@ eureka:
     #    默认服务地址
     serviceUrl:
       defaultZone: http://peer:${server.port}/eureka/
-security:
-  basic:
-    enabled: false
-
 # 多节点
 # aplication.name 必须一样
 # 服务地址不应该是ip的形式

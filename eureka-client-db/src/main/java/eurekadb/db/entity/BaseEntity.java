@@ -5,11 +5,9 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,6 +16,7 @@ import java.util.Date;
  * @date : 18-11-8 下午1:43
  */
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity implements Serializable {
     private static final long serialVersionUID = -2963618002145345835L;
 
@@ -28,11 +27,11 @@ public class BaseEntity implements Serializable {
     private String id;
 
     @CreatedDate
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'")
+    @Column
     private Date createdDate;
 
     @LastModifiedDate
-    @Column(columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP COMMENT '最后修改时间'")
+    @Column
     private Date lastModifiedDate;
 
     public String getId() {

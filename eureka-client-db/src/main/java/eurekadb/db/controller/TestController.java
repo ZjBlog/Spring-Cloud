@@ -1,8 +1,10 @@
 package eurekadb.db.controller;
 
+import eurekadb.db.entity.User;
+import eurekadb.db.repository.UserRepsoitory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,9 @@ public class TestController {
     @Value("${server.port}")
     String port;
 
+    @Autowired
+    private UserRepsoitory userRepsoitory;
+
     @GetMapping("/db")
     public String test(HttpServletRequest request) {
 
@@ -31,5 +36,16 @@ public class TestController {
             }
         }
         return "Hi,I am " + port;
+    }
+    @GetMapping("/init")
+    public void test1() {
+        log.info("init");
+        User user=null;
+        for (Integer i=0;i<5;i++){
+            user=new User();
+            user.setName("" + i);
+            user.setPassword("" + i);
+            userRepsoitory.save(user);
+        }
     }
 }
