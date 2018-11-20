@@ -71,7 +71,7 @@ hystrix:
             maxConcurrentRequests: 10  # 信号量最大的大小，当最大并发数达到该设置值时，后续的请求将会被拒绝，默认值是：10
   threadpool:
     default:
-      coreSize: 10 # 设置并发最大的核心线程数，默认值是：10
+      coreSize: 10 # 线程池设置并发最大的核心线程数，默认值是：10
     product-provider:
       coreSize: 6 # 为product-provider这个线程组设置最大核心线程为6
 
