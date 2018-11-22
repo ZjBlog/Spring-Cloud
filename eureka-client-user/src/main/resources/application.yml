@@ -48,18 +48,52 @@ db-service:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
+
+#hystrix 参数设置 也可以在注解参数中设置
 #hystrix超时设置  default默认超时设置默认 1000  test1指定方法超时时间
 hystrix:
-  command:
+  collapser: #Collapser Properties 相关参数
     default:
-      execution:
+      maxRequestsInBatch: Integer.MAX_VALUE #单次批处理的最大请求数，达到该数量触发批处理，默认Integer.MAX_VALUE
+      timerDelayInMilliseconds: 10 #此属性设置创建批处理后触发执行的毫秒数
+      requestCache:
+        enabled: true #缓存
+  command: #Command Properties
+    default:
+      requestCache: #Request Context 相关参数
+        enabled: true #开启请求缓存
+      requestLog:
+        enabled: true #记录日志到HystrixRequestLog
+      metrics: #度量策略
+        healthSnapshot:
+          intervalInMilliseconds: 500 #数据取样时间间隔
+        rollingStats:
+          timeInMilliseconds: 5000 #5秒为一次统计周期，术语描述：滚动窗口的长度为5秒
+          numBuckets: 10 #统计周期内 度量桶的数量，必须被timeInMilliseconds整除
+          rollingPercentile:
+            enabled: true #是否收集执行时间，并计算各个时间段的百分比
+            timeInMilliseconds: 6000 #设置执行时间统计周期为多久，用来计算百分比
+            numBuckets:  6 #执行时间统计周期内，度量桶的数量 必须被timeInMilliseconds 整除
+            bucketSize: 100 #执行时间统计周期内，每个度量桶最多统计多少条记录。设置为50，有100次请求，则只会统计最近的50次
+      circuitBreaker: #熔断器部分
+        enabled: true #开启熔断
+        requestVolumeThreshold: 5 #前提条件，一定时间内发起一定数量的请求。  也就是5秒钟内(这个5秒对应下面的度量策略里滚动窗口长度)至少请求5次，熔断器才发挥起作用。  默认20
+        sleepWindowInMilliseconds: 10000 #10秒后，进入半打开状态（熔断开启，间隔一段时间后，会让一部分的命令去请求服务提供者，如果结果依旧是失败，则又会进入熔断状态，如果成功，就关闭熔断）。 默认5秒
+        errorThresholdPercentage: 50 #错误百分比。达到或超过这个百分比，熔断器打开。  比如：5秒内有4个请求，2个请求超时或者失败，就会自动开启熔断
+        forceOpen: false #强制开启
+        forceClosed: false #强制关闭
+      execution: #Execution相关的属性的配置
         isolation:
-          strategy: THREAD# 修改默认的隔离策略为信号量隔离，默认是线程池隔离
+          strategy: THREAD #隔离策略默认是线程池隔离
           thread:
-            timeoutInMilliseconds: 1000 # 命令执行超时时间，单位为毫秒，命令执行超时将会执行fallback，默认是1000
-            interruptOnTimeout: true # 超时是否中断HystrixCommand.run方法的执行，默认值是 true
+            timeoutInMilliseconds: 3000 # 命令执行超时时间，单位为毫秒，命令执行超时将会执行fallback，默认是1000
+            interruptOnTimeout: true # 超时是否中断HystrixCommand.run方法的执行，默认值是 true超时时中断线程
+            interruptOnCancel: true #取消是是否中断线程 默认false
           timeout: true
-      fallback:
+          semaphore:
+            maxConcurrentRequests: 10 #信号量模式下,最大并发量
+      fallback: #降级服务配置
+        enabled: true #是否开启服务降级
         isolation:
           semaphore:
             maxConcurrentRequests: 50 # 如果并发数达到该设置值，请求会被拒绝和抛出异常并且fallback不会被调用。（线程池隔离和信号量隔离都适用）默认值是：10
@@ -69,9 +103,13 @@ hystrix:
           strategy: SEMAPHORE # 修改默认的隔离策略为线程池隔离，默认是线程池隔离
           semaphore:
             maxConcurrentRequests: 10  # 信号量最大的大小，当最大并发数达到该设置值时，后续的请求将会被拒绝，默认值是：10
-  threadpool:
+  threadpool: # 线程池相关部分 也可以使用注解形式配置
     default:
-      coreSize: 10 # 线程池设置并发最大的核心线程数，默认值是：10
+      coreSize: 10 # 线程池设置并发最大的核心线程数,默认值是：10
+      maximumSize: 12 #拒绝请求的最大线程池数量必须allowMaximumSizeToDivergeFromCoreSize为true时生效
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: 100 #-1使用SynchronousQueue >-1使用LinkedBlockingQueue 大小不能动态更改 缓存区大小
+      queueSizeRejectionThreshold: 5 #拒绝的阀值 即时没有达到最大缓存数
     product-provider:
       coreSize: 6 # 为product-provider这个线程组设置最大核心线程为6
 

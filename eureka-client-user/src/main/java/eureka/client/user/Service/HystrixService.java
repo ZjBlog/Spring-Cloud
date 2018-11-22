@@ -33,10 +33,14 @@ public class HystrixService {
      * 开启或关闭超时时间
      * @return
      */
+    /**
+     * 配置文件中配置 或者用注解形式配置
+     * @return
+     */
     @HystrixCommand(commandProperties = {
             @HystrixProperty(name = "execution.timeout.enabled", value = "true"),
             @HystrixProperty(name ="execution.isolation.thread.timeoutInMilliseconds",value = "7000")
-    },fallbackMethod = "error")
+    }, threadPoolProperties = {@HystrixProperty(name="coreSize",value = "10")},fallbackMethod = "error")
     public String test(){
         return restTemplate.getForObject("http://db-service/db",String.class);
     }
