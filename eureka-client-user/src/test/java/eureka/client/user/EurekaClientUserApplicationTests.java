@@ -2,6 +2,8 @@ package eureka.client.user;
 
 import eureka.client.user.Service.Hystrix.CommandHelloWorld;
 import eureka.client.user.Service.Hystrix.CommandHelloWorld1;
+import eureka.client.user.Service.Hystrix.ObservableCommandHelloWorld1;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import java.util.concurrent.Future;
 
 //@RunWith(SpringRunner.class)
 //@SpringBootTest
+@Slf4j
 public class EurekaClientUserApplicationTests {
 
     //同步执行
@@ -90,7 +93,7 @@ public class EurekaClientUserApplicationTests {
         System.out.println(co.toBlocking().single());
     }
 
-    @Test
+    //@Test
     public void test3(){
         CommandHelloWorld1 helloWorld1=new CommandHelloWorld1();
         System.out.println(helloWorld1.getUserId("d"));
@@ -101,5 +104,17 @@ public class EurekaClientUserApplicationTests {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void test4(){
+        ObservableCommandHelloWorld1 t=new ObservableCommandHelloWorld1();
+        Observable<String> userById = t.getUserById("11");
+        userById.subscribe(new Action1<String>() {
+            @Override
+            public void call(String s) {
+                log.info(s);
+            }
+        });
     }
 }
