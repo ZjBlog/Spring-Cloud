@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
+import rx.observables.AsyncOnSubscribe;
 import rx.observables.SyncOnSubscribe;
 
 /**
@@ -45,6 +46,19 @@ public class ObservableCommandHelloWorld1 {
      */
     @HystrixCommand(observableExecutionMode = ObservableExecutionMode.LAZY, fallbackMethod = "toObserbableError") //表示使用toObservable()执行方式
     public Observable<String> getUserByName(final String name) {
+
+        Observable.create(new AsyncOnSubscribe<String, String>() {
+            @Override
+            protected String generateState() {
+                return null;
+            }
+
+            @Override
+            protected String next(String state, long requested, Observer<Observable<? extends String>> observer) {
+                return null;
+            }
+        });
+
         return Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {

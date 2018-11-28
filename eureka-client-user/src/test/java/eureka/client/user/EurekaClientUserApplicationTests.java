@@ -116,5 +116,21 @@ public class EurekaClientUserApplicationTests {
                 log.info(s);
             }
         });
+        userById.subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+                System.out.println("Completed");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                System.out.println("=========onNext: " + s);
+            }
+        });
     }
 }
