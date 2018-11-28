@@ -109,11 +109,12 @@ public class EurekaClientUserApplicationTests {
     @Test
     public void test4(){
         ObservableCommandHelloWorld1 t=new ObservableCommandHelloWorld1();
-        Observable<String> userById = t.getUserById("11");
+        //Observable<String> userById = t.getUserById("11");
+        Observable<String> userById = t.getUserByName("dddd");
         userById.subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
-                log.info(s);
+                System.out.println(s);
             }
         });
         userById.subscribe(new Observer<String>() {

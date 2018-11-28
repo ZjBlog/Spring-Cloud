@@ -24,7 +24,7 @@ public class ObservableCommandHelloWorld1 {
        return Observable.create(new SyncOnSubscribe<String, String>() {
             @Override
             protected String generateState() {
-                log.info("......1");
+               // log.info("......1");
                 return id;
             }
 
@@ -47,32 +47,17 @@ public class ObservableCommandHelloWorld1 {
     @HystrixCommand(observableExecutionMode = ObservableExecutionMode.LAZY, fallbackMethod = "toObserbableError") //表示使用toObservable()执行方式
     public Observable<String> getUserByName(final String name) {
 
-        Observable.create(new AsyncOnSubscribe<String, String>() {
+        return Observable.create(new SyncOnSubscribe<String, String>() {
             @Override
             protected String generateState() {
-                return null;
+                return name;
             }
 
             @Override
-            protected String next(String state, long requested, Observer<Observable<? extends String>> observer) {
-                return null;
-            }
-        });
-
-        return Observable.create(new Observable.OnSubscribe<String>() {
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                try {
-                    if(!subscriber.isUnsubscribed()) {
-                        subscriber.onNext("找到");
-                        subscriber.onNext(name);
-                        int i = 1/0; ////抛异常，模拟服务降级
-                        subscriber.onNext("了");
-                        subscriber.onCompleted();
-                    }
-                } catch (Exception e) {
-                    subscriber.onError(e);
-                }
+            protected String next(String state, Observer<? super String> observer) {
+                observer.onNext(state);
+                observer.onCompleted();
+                return state;
             }
         });
     }
