@@ -2,6 +2,7 @@ package eureka.client.user.controller;
 
 import eureka.client.user.Entity.User;
 import eureka.client.user.Service.FeignService;
+import eureka.client.user.Service.HystrixCollapser.HystrixCollapserDemo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,6 +25,9 @@ public class FeignController {
     @Autowired
     FeignService feignService;
 
+    @Autowired
+    HystrixCollapserDemo hystrixCollapserDemo;
+
 
     @GetMapping("/feign/{id}")
     public String test(@PathVariable("id") String id){
@@ -30,7 +35,7 @@ public class FeignController {
     }
 
     @GetMapping("/feign1")
-    public String test7(@RequestParam("ids") String ids){
+    public List<String> test7(@RequestParam("ids") String ids){
         return  feignService.userNames1(ids);
     }
 
@@ -61,5 +66,13 @@ public class FeignController {
         user.setName("哈哈");
         user.setPassword("dd");
         return  feignService.userAdd(user);
+    }
+
+    @GetMapping("/feign/merge")
+    public String test5(){
+        for (Integer i=0;i<8;i++){
+            log.info("=== "+i+hystrixCollapserDemo.test(i + ""));
+        }
+        return "ok";
     }
 }

@@ -6,6 +6,7 @@ import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +36,7 @@ public interface FeignService {
     String userNames(@RequestParam("ids") String id);
 
     @RequestMapping(value = "/names?ids={ids}", method = RequestMethod.GET)
-    String userNames1(@RequestParam("ids") String id);
+    List<String> userNames1(@RequestParam("ids") String id);
 
     @RequestMapping(value = "/name/{id}", method = RequestMethod.GET)
     String userNamesd(@PathVariable("id") String id);
