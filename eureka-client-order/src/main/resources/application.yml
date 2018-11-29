@@ -1,6 +1,4 @@
 ---
-server:
-  port: 7088
 spring:
   application:
     name: order-service
@@ -23,5 +21,8 @@ eureka:
 #db-service:
 #  ribbon:
 #    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
-
-
+---
+server:
+  port: 7088
+#spring:
+#  profiles: order

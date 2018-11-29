@@ -51,7 +51,7 @@ eureka:
 # 多节点
 # aplication.name 必须一样
 # 服务地址不应该是ip的形式
-#
+# peer1 peer2 peer3 放到host中
 ---
 spring:
   profiles: peer1

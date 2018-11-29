@@ -3,15 +3,24 @@ package eureka.client.user.controller;
 import eureka.client.user.Service.DbServiceFeign;
 import eureka.client.user.Service.DbServiceFeign2;
 import eureka.client.user.Service.FeignService;
+import eureka.client.user.Service.Hystrix.ObservableCommandHelloWorld1;
 import eureka.client.user.Service.HystrixService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import rx.Observable;
+import rx.Observer;
+import rx.functions.Action1;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@Slf4j
 public class TestController {
 
     @Autowired
@@ -32,6 +41,9 @@ public class TestController {
 
     @Autowired
     DbServiceFeign2 dbServiceFeign2;
+
+    @Autowired
+    ObservableCommandHelloWorld1 observableCommandHelloWorld1;
 
 
     @GetMapping("/user")
@@ -81,5 +93,28 @@ public class TestController {
         return  dbServiceFeign2.str();
     }
 
+
+    @GetMapping("/user9")
+    public List<String> test9(){
+        List<String> list = new ArrayList<>();
+        Observable<String> ddd = observableCommandHelloWorld1.getUserByName1("ddd");
+        ddd.subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+                log.info("完成");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(String s) {
+                list.add(s);
+            }
+        });
+        return  list;
+    }
 
 }

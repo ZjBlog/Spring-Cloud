@@ -5,10 +5,13 @@ import eurekadb.db.repository.UserRepsoitory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author : ZJ
@@ -23,6 +26,36 @@ public class TestController {
 
     @Autowired
     private UserRepsoitory userRepsoitory;
+
+
+    @PostMapping("/add")
+    public String userAdd(@RequestBody User user){
+        User save = userRepsoitory.save(user);
+        return save.getId();
+    };
+
+    @GetMapping("/name/{id}")
+    public String getNamed(@PathVariable("id") String id){
+        Optional<User> user = userRepsoitory.findById(id);
+        return user.get().getName();
+    };
+
+    @GetMapping("/name/id")
+    public String getName(@RequestParam("id") String id,@RequestParam("name") String name){
+        Optional<User> user = userRepsoitory.findById(id);
+        return user.get().getName();
+    };
+    @GetMapping("/name")
+    public String getName(@RequestParam("id") String id){
+        Optional<User> user = userRepsoitory.findById(id);
+        return user.get().getName();
+    };
+
+    @GetMapping("/names")
+    public List<String> getNames(@RequestParam("ids") String id){
+        List<User> byIdIN = userRepsoitory.findByIdIn(Arrays.asList(id.split(",")));
+        return byIdIN.stream().map(s->s.getName()).collect(Collectors.toList());
+    };
 
     @GetMapping("/db")
     public String test(HttpServletRequest request) {

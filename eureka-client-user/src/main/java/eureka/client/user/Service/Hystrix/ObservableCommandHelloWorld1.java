@@ -3,6 +3,7 @@ package eureka.client.user.Service.Hystrix;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
@@ -13,6 +14,7 @@ import rx.observables.SyncOnSubscribe;
  * @author : ZJ
  * @date : 18-11-26 下午4:48
  */
+@Component
 @Slf4j
 public class ObservableCommandHelloWorld1 {
     /**
@@ -25,7 +27,7 @@ public class ObservableCommandHelloWorld1 {
             @Override
             protected String generateState() {
                // log.info("......1");
-                return id;
+                return "1";
             }
 
             @Override
@@ -37,7 +39,7 @@ public class ObservableCommandHelloWorld1 {
         });
     }
 
-    private String observFailed(Long id) {
+    private String observFailed(String id) {
         return "observFailed---->" + id;
     }
 
@@ -50,6 +52,7 @@ public class ObservableCommandHelloWorld1 {
         return Observable.create(new SyncOnSubscribe<String, String>() {
             @Override
             protected String generateState() {
+                int i=1/0;
                 return name;
             }
 
@@ -64,6 +67,11 @@ public class ObservableCommandHelloWorld1 {
 
     private String toObserbableError(String name) {
         return "toObserbableError--->" + name;
+    }
+
+    @HystrixCommand(observableExecutionMode = ObservableExecutionMode.LAZY, fallbackMethod = "toObserbableError") //表示使用toObservable()执行方式
+    public Observable<String> getUserByName1(final String name) {
+        return Observable.just("1","2");
     }
 
 }
