@@ -1,5 +1,6 @@
 package eureka.client.user.controller;
 
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import eureka.client.user.Entity.User;
 import eureka.client.user.Service.FeignService;
 import eureka.client.user.Service.HystrixCollapser.HystrixCollapserDemo;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * @author : ZJ
@@ -72,6 +75,25 @@ public class FeignController {
     public String test5(){
         for (Integer i=0;i<8;i++){
             log.info("=== "+i+hystrixCollapserDemo.test(i + ""));
+        }
+        return "ok";
+    }
+    @GetMapping("/feign/merge/test")
+    public String test6(){
+        //HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        try {
+            Future<String> test = hystrixCollapserDemo.test("1");
+            Future<String> test1 = hystrixCollapserDemo.test("2");
+            Future<String> test2 = hystrixCollapserDemo.test("3");
+            //Thread.sleep(200);
+            Future<String> test3 = hystrixCollapserDemo.test("4");
+            log.info(test.get());
+            log.info(test1.get());
+            log.info(test2.get());
+            log.info(test3.get());
+           // context.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "ok";
     }

@@ -54,6 +54,9 @@ public class TestController {
     @GetMapping("/names")
     public List<String> getNames(@RequestParam("ids") String id){
         List<User> byIdIN = userRepsoitory.findByIdIn(Arrays.asList(id.split(",")));
+        log.info("========================");
+        log.info(id);
+        log.info(Arrays.asList(id.split(",")).toString());
         return byIdIN.stream().map(s->s.getName()).collect(Collectors.toList());
     };
 

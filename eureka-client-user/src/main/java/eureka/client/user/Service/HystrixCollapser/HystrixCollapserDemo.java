@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Future;
 
 /**
  * @author : ZJ
@@ -21,6 +24,9 @@ public class HystrixCollapserDemo {
 
     @Autowired
     private FeignService feignService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     /**
      * 请求合并
@@ -35,17 +41,23 @@ public class HystrixCollapserDemo {
             @HystrixProperty(name = "timerDelayInMilliseconds",value = "100"),
             @HystrixProperty(name = "maxRequestsInBatch",value = "200")
     })
-    public String test(String id){
+    public Future<String> test(String id){
         return null;
     }
 
     @HystrixCommand(fallbackMethod = "getStrBack")
     public List<String> getStr(List<String> ids){
+        log.info("合并操作线程 --> {} --> params --> {}", Thread.currentThread().getName(), ids.toString());
+        log.info(ids.toString()+"====");
         String join = StringUtils.join(ids, ",");
-        return  feignService.userNames1(join);
+        log.info("==="+ join);
+        String[] forObject = restTemplate.getForObject("http://db-service/names?ids={1}", String[].class, join);
+        return Arrays.asList(forObject);
+       // return  feignService.userNames1(join);
     }
 
     public List<String> getStrBack(List<String> ids){
+        log.info("================");
         log.error("出错了");
         return ids;
     }
