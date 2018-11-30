@@ -14,3 +14,5 @@ https://www.cnblogs.com/happyflyingpig/p/8119754.html
 https://www.cnblogs.com/happyflyingpig/p/8079308.html
 
 https://stonetingxin.gitbooks.io/hystrix/content/prerequisites_for_this_tutorial/request_collapsing.html
+
+https://blog.csdn.net/kang123488/article/details/79512052
