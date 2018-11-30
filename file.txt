@@ -12,3 +12,5 @@ http://huan1993.iteye.com/blog/2424363
 https://www.cnblogs.com/hellxz/category/1203216.html
 https://www.cnblogs.com/happyflyingpig/p/8119754.html
 https://www.cnblogs.com/happyflyingpig/p/8079308.html
+
+https://stonetingxin.gitbooks.io/hystrix/content/prerequisites_for_this_tutorial/request_collapsing.html
