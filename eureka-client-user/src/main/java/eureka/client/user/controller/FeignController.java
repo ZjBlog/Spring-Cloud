@@ -80,18 +80,29 @@ public class FeignController {
     }
     @GetMapping("/feign/merge/test")
     public String test6(){
-        //HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
         try {
             Future<String> test = hystrixCollapserDemo.test("1");
             Future<String> test1 = hystrixCollapserDemo.test("2");
+            log.info(test.get());
+            log.info(test1.get());
+            context.shutdown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "ok";
+    }
+    @GetMapping("/feign/merge/test1")
+    public String test7(){
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        try {
             Future<String> test2 = hystrixCollapserDemo.test("3");
             //Thread.sleep(200);
             Future<String> test3 = hystrixCollapserDemo.test("4");
-            log.info(test.get());
-            log.info(test1.get());
             log.info(test2.get());
             log.info(test3.get());
-           // context.close();
+            // context.close();
+            context.shutdown();
         } catch (Exception e) {
             e.printStackTrace();
         }

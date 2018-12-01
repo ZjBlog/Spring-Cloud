@@ -38,7 +38,7 @@ public class HystrixCollapserDemo {
      * @return
      */
     @HystrixCollapser(batchMethod ="getStr",scope = com.netflix.hystrix.HystrixCollapser.Scope.GLOBAL,collapserProperties = {
-            @HystrixProperty(name = "timerDelayInMilliseconds",value = "100"),
+            @HystrixProperty(name = "timerDelayInMilliseconds",value = "5000"),
             @HystrixProperty(name = "maxRequestsInBatch",value = "200")
     })
     public Future<String> test(String id){

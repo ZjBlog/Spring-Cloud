@@ -63,7 +63,7 @@ hystrix:
   collapser: #Collapser Properties 相关参数
     default:
       maxRequestsInBatch: Integer.MAX_VALUE #单次批处理的最大请求数，达到该数量触发批处理，默认Integer.MAX_VALUE
-      timerDelayInMilliseconds: 100 #此属性设置创建批处理后触发执行的毫秒数
+      timerDelayInMilliseconds: 5000 #此属性设置创建批处理后触发执行的毫秒数
       requestCache:
         enabled: true #缓存
   command: #Command Properties
