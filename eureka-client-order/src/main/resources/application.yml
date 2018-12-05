@@ -2,6 +2,17 @@
 spring:
   application:
     name: order-service
+  data:
+    jpa:
+      repositories:
+        enabled: false
+  datasource:
+    username: admin
+    #driver-class-name: org.h2.Driver
+    #Establishing SSL connection without server's identity verification is not recommened 加上useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/bgcz?zeroDateTimeBehavior=convertToNull&useSSL=false&autoReconnect=true&characterEncoding=utf-8
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
 eureka:
   # 实例的id  默认是myhost:myappname:port  可以配置更改
   #  instance:

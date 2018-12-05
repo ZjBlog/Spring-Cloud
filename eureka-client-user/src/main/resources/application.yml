@@ -56,7 +56,6 @@ db-service:
 ribbon:
   ReadTimeout: 6000
   ConnectTimeout: 6000
-
 #hystrix 参数设置 也可以在注解参数中设置
 #hystrix超时设置  default默认超时设置默认 1000  test1指定方法超时时间
 hystrix:
@@ -92,7 +91,7 @@ hystrix:
         forceClosed: false #强制关闭
       execution: #Execution相关的属性的配置
         isolation:
-          strategy: THREAD #隔离策略默认是线程池隔离
+          strategy: THREAD #隔离策略默认是线程池隔离THREAD
           thread:
             timeoutInMilliseconds: 3000 # 命令执行超时时间，单位为毫秒，命令执行超时将会执行fallback，默认是1000
             interruptOnTimeout: true # 超时是否中断HystrixCommand.run方法的执行，默认值是 true超时时中断线程
@@ -131,7 +130,11 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 7000
-
+turbine:
+  app-config: db-service,user-service,order-service
+  aggregator:
+    cluster-config: default
+  cluster-name-expression: "'default'"
 ---
 server:
   port: 8088

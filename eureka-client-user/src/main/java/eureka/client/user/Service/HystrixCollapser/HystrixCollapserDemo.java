@@ -37,6 +37,11 @@ public class HystrixCollapserDemo {
      * @param id
      * @return
      */
+    /**
+     * 请求缓存必须有HystrixRequestContext 请求上下文
+     * @param id
+     * @return
+     */
     @HystrixCollapser(batchMethod ="getStr",scope = com.netflix.hystrix.HystrixCollapser.Scope.GLOBAL,collapserProperties = {
             @HystrixProperty(name = "timerDelayInMilliseconds",value = "5000"),
             @HystrixProperty(name = "maxRequestsInBatch",value = "200")

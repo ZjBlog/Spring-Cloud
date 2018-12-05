@@ -64,13 +64,13 @@ public class TestController {
     public String test(HttpServletRequest request) {
 
         log.info(request.getHeader("token"));
-        if("9088".equals(port)) {
-            try {
-                Thread.sleep(5000);
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+//        if("9088".equals(port)) {
+//            try {
+//                Thread.sleep(5000);
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
         return "Hi,I am " + port;
     }
     @GetMapping("/init")

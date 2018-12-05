@@ -1,4 +1,4 @@
-package enreka.order.config;
+package eurekadb.db.Config;
 
 import com.netflix.hystrix.contrib.metrics.eventstream.HystrixMetricsStreamServlet;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -13,11 +13,6 @@ import org.springframework.web.client.RestTemplate;
  */
 @Configuration
 public class AppConfig {
-    @LoadBalanced
-    @Bean
-    RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
 
     @Bean
     public ServletRegistrationBean getServlet() {
