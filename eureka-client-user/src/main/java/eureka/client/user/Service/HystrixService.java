@@ -16,6 +16,9 @@ import java.util.List;
  * @date : 18-11-5 上午11:00
  */
 
+/**
+ * 线程池名字HystrixService
+ */
 @Service
 public class HystrixService {
 

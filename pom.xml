@@ -11,6 +11,7 @@
     <name>Cloud</name>
     <!--子模块工厂配置-->
     <modules>
+        <module>enreka-turbine</module>
         <module>eureka-client-order</module>
         <module>eureka-client-db</module>
         <module>eureka-serve</module>
@@ -65,10 +66,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix-dashboard</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-turbine</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -130,11 +130,6 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 7000
-turbine:
-  app-config: db-service,user-service,order-service
-  aggregator:
-    cluster-config: default
-  cluster-name-expression: "'default'"
 ---
 server:
   port: 8088
