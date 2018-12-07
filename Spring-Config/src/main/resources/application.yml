@@ -6,8 +6,11 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/ZjBlog/Spring-Cloud-Config/
-          search-paths:
+          uri: https://github.com/ZjBlog/Spring-Cloud #仓库地址
+          search-paths: CloudConfig  #路径
+      label: master
+  #  私有仓库需要验证        username:
+#          password:
   jpa:
     open-in-view: true
     show-sql: true
