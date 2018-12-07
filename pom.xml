@@ -11,6 +11,7 @@
     <name>Cloud</name>
     <!--子模块工厂配置-->
     <modules>
+        <module>Spring-Config</module>
         <module>enreka-turbine</module>
         <module>eureka-client-order</module>
         <module>eureka-client-db</module>

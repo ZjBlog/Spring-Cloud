@@ -1,0 +1,64 @@
+---
+spring:
+  application:
+    name: spring-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ZjBlog/Spring-Cloud-Config/
+          search-paths:
+  jpa:
+    open-in-view: true
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        # 大写字母前加_的策略
+        #逻辑名称
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        #物理名称
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  data:
+    jpa:
+      repositories:
+        enabled: false
+  h2:
+    console:
+      enabled: false
+      path: /h2
+  datasource:
+    #    data: classpath:/sql/data.sql
+    #    schema: classpath:/sql/schema.sql
+    #url: jdbc:h2:mem:dev_db
+    username: admin
+    #driver-class-name: org.h2.Driver
+    url: jdbc:mysql://127.0.0.1:3306/bgcz?zeroDateTimeBehavior=convertToNull&useSSL=false&autoReconnect=true&characterEncoding=utf-8
+    password: admin
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+      max-active: 200
+      min-idle: 8
+      max-idle: 10
+      initial-size: 10
+      time-between-eviction-runs-millis: 60000
+      validation-query: select 1
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+eureka:
+  #更改Eureka更新频率将打破服务器的自我保护功能，生产环境下不建议自定义这些配置。
+  instance:
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+  client:
+    # 开启健康检测
+    healthcheck: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+---
+server:
+  port: 5088
