@@ -1,0 +1,30 @@
+#启动上下文
+#Spring Cloud会创建一个`Bootstrap Context`，作为Spring应用的`Application Context`
+#的父上下文。初始化的时候，`Bootstrap Context`负责从外部源加载配置属性并解析配置。
+#这两个上下文共享一个从外部获取的`Environment`。`Bootstrap`属性有高优先级，默认情况下，
+#它们不会被本地配置覆盖。 `Bootstrap context`和`Application Context`有着不同的约定，
+#所以新增了一个`bootstrap.yml`文件，而不是使用`application.yml` (或者`application.properties`)。
+#保证`Bootstrap Context`和`Application Context`配置的分离
+# 单机情况
+#spring:
+#  cloud:
+#    config:
+#      label: master
+#      uri: http://127.0.0.1:5088/
+#      profile: dev
+# 多台
+spring:
+  cloud:
+    # bus开启  trace消息追踪
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+    config:
+      label: master
+      profile: dev
+      name: user-service #远程应用的属性名称
+      discovery:
+        service-id: spring-config #config服务名
+        enabled: true # 启用配置服务器发现
+      fail-fast: true #快速失败，如果有些时候服务连接不上配置服务器，希望这个服务快速失败，那么可以将fail-fast这个参数设置成true

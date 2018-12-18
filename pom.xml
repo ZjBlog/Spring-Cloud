@@ -11,6 +11,8 @@
     <name>Cloud</name>
     <!--子模块工厂配置-->
     <modules>
+        <module>config-serve-bus</module>
+        <module>confgi-bus-client</module>
         <module>Spring-Config</module>
         <module>enreka-turbine</module>
         <module>eureka-client-order</module>

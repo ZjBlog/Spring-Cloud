@@ -1,16 +1,16 @@
 ---
 spring:
   application:
-    name: order-service
+    name: user-service
+  data:
+    jpa:
+      repositories:
+        enabled: false
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
-  data:
-    jpa:
-      repositories:
-        enabled: false
   datasource:
     username: admin
     #driver-class-name: org.h2.Driver
@@ -33,12 +33,6 @@ eureka:
     lease-expiration-duration-in-seconds: 30
     #续约更新时间间隔（默认30秒）
     lease-renewal-interval-in-seconds: 10
-#配置 db-service的负载策略
-#db-service:
-#  ribbon:
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
 ---
 server:
-  port: 7088
-#spring:
-#  profiles: order
+  port: 8088

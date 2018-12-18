@@ -135,7 +135,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: info,health,refresh
+        include: info,health,refresh,bus-refresh
 ---
 server:
   port: 8088
