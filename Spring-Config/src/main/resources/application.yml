@@ -65,3 +65,10 @@ eureka:
 ---
 server:
   port: 5088
+spring:
+  profiles: config1
+---
+server:
+  port: 5089
+spring:
+  profiles: config2

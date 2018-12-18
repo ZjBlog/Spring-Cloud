@@ -130,6 +130,12 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 7000
+#spring-boot-starter-actuator 配置actuator的暴露路径配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,refresh
 ---
 server:
   port: 8088

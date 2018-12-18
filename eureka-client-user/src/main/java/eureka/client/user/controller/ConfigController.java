@@ -18,7 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
  * 那么我们可能希望这些连接的持有人能够完成他们正在做的工作。
  * 然后下一次有人从游泳池借用一个连接，他得到一个新的URL。
  */
+
+/**
+ * 改变之前调用http://127.0.0.1:8088/actuator/refresh 刷新下
+ * 刷新配置路径management:
+ *   endpoints:
+ *     web:
+ *       exposure:
+ *         include: info,health,refresh
+ */
 @RestController
+@RefreshScope
 public class ConfigController {
 
     @Value("${spring-config}")

@@ -6,10 +6,20 @@
 #所以新增了一个`bootstrap.yml`文件，而不是使用`application.yml` (或者`application.properties`)。
 #保证`Bootstrap Context`和`Application Context`配置的分离
 # 单机情况
+#spring:
+#  cloud:
+#    config:
+#      label: master
+#      uri: http://127.0.0.1:5088/
+#      profile: dev
+# 多台
 spring:
   cloud:
     config:
       label: master
-      uri: http://127.0.0.1:5088/
       profile: dev
-      name: user-service
+      name: user-service #远程应用的属性名称
+      discovery:
+        service-id: spring-config #config服务名
+        enabled: true # 启用配置服务器发现
+      fail-fast: true #快速失败，如果有些时候服务连接不上配置服务器，希望这个服务快速失败，那么可以将fail-fast这个参数设置成true
