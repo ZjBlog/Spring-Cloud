@@ -1,0 +1,23 @@
+---
+spring:
+  application:
+    name: spring-gateway
+  cloud:
+    gateway:
+#      routes:
+#        - id: neo_route
+#          uri: https://www.baidu.com
+#          predicates:
+#          - Path=/spring-cloud
+#        - id: cookie_route
+#          uri: http://ityouknow.com
+#          predicates:
+#          - Cookie=ityouknow, kee.e
+#        - id: header_route
+#          uri: http://ityouknow.com
+#          predicates:
+#          - Header=X-Request-Id, \d+
+
+
+server:
+  port: 4088
