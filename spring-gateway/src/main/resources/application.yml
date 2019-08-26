@@ -1,33 +1,91 @@
 ---
 spring:
-  application:
-    name: spring-gateway
-  cloud:
-    gateway:
-#      routes:
-#        - id: neo_route
-#          uri: https://www.baidu.com
-#          predicates:
-#          - Path=/spring-cloud
-#        - id: cookie_route
-#          uri: http://ityouknow.com
-#          predicates:
-#          - Cookie=ityouknow, kee.e
-#        - id: header_route
-#          uri: http://ityouknow.com
-#          predicates:
-#          - Header=X-Request-Id, \d+
-
   data:
     jpa:
       repositories:
         enabled: false
   datasource:
-    username: admin
     #driver-class-name: org.h2.Driver
     #Establishing SSL connection without server's identity verification is not recommened 加上useSSL=false
-    url: jdbc:mysql://127.0.0.1:3306/bgcz?zeroDateTimeBehavior=convertToNull&useSSL=false&autoReconnect=true&characterEncoding=utf-8
-    password: admin
-    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.250:3306/lukehui?zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&serverTimezone=GMT%2b8
+    username: root
+    password: 123456
+  application:
+    name: spring-gateway-zj
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowCredentials: true
+      loadbalancer:
+        use404: true
+      discovery:
+        locator:
+          #表明gateway开启服务注册和发现的功能，并且spring cloud gateway自动根据服务发现为每一个服务创建了
+          #一个router，这个router将以服务名开头的请求路径转发到对应的服务。
+          #http://127.0.0.1:8090/user-service-zj/zj/test 这种类型
+          enabled: false
+          #将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了）
+          lower-case-service-id: true
+          #如果使用uri: lb: 将使用ribbon的LoadBalancerClientFilter负载均衡策略  enabled: false 将不会注册
+          #http://127.0.0.1:8090/user-service-zj/zj/test 不可以了
+#global filter
+#uri: 以http或https开头 使用NettyRoutingFilter 负载均衡
+#uri： 以ld开头 用ribbon的LoadBalancerClientFilter负载均衡策略
+      routes:
+      - id: user-zj1
+        uri: lb://user-service-zj
+        predicates:
+        - Path=/zj/**
+        #- Weight=service, 5
+        filters:
+        - StripPrefix=1
+#      - id: user-zj
+#        uri: lb://user-service-zj
+#        predicates:
+#        - Path=/zj/**
+#        filters:
+#        - StripPrefix=1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+eureka:
+  # 实例的id  默认是myhost:myappname:port  可以配置更改
+  #  instance:
+  #    instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+  client:
+    # 开启健康检测
+    healthcheck: true
+    serviceUrl:
+      defaultZone: http://discover-01.cheerspublishing.com:8761/eureka/,http://discover-02.cheerspublishing.com:8762/eureka/
+      #defaultZone: http://127.0.0.1:8761/eureka/
+  #更改Eureka更新频率将打破服务器的自我保护功能，生产环境下不建议自定义这些配置。
+  instance:
+    #续约到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+    #续约更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+    #prefer-ip-address: true
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+#    org.springframework.http.server.reactive: debug
+#    org.springframework.web.reactive: debug
+#    reactor.ipc.netty: debug
 server:
-  port: 4088
+  port: 8090

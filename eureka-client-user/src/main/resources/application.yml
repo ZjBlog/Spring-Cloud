@@ -1,18 +1,19 @@
 ---
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
-    name: user-service
+    name: user-service-zj
   data:
     jpa:
       repositories:
         enabled: false
   datasource:
-    username: admin
     #driver-class-name: org.h2.Driver
     #Establishing SSL connection without server's identity verification is not recommened 加上useSSL=false
-    url: jdbc:mysql://127.0.0.1:3306/bgcz?zeroDateTimeBehavior=convertToNull&useSSL=false&autoReconnect=true&characterEncoding=utf-8
-    password: admin
-    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.1.250:3306/lukehui?zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8&serverTimezone=GMT%2b8
+    username: root
+    password: 123456
 eureka:
   # 实例的id  默认是myhost:myappname:port  可以配置更改
   #  instance:
@@ -21,13 +22,15 @@ eureka:
     # 开启健康检测
     healthcheck: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://discover-01.cheerspublishing.com:8761/eureka/,http://discover-02.cheerspublishing.com:8762/eureka/
   #更改Eureka更新频率将打破服务器的自我保护功能，生产环境下不建议自定义这些配置。
   instance:
     #续约到期时间（默认90秒）
     lease-expiration-duration-in-seconds: 30
     #续约更新时间间隔（默认30秒）
     lease-renewal-interval-in-seconds: 10
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 #开启hystrix的支持
 # 配置对请求的内容的压缩,有了上面spring boot的压缩，此处feign的压缩可以不用
 feign:

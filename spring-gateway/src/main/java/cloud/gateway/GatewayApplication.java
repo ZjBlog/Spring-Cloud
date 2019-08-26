@@ -14,17 +14,17 @@ public class GatewayApplication {
     }
 
 
-    @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-        return builder.routes()
+//    @Bean
+//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+//        return builder.routes()
 //                .route("path_route", r -> r.path("/about")
 //                        .uri("http://ityouknow.com"))
 //                .route("co",r->r.cookie("ityouknow","kee.e")
 //                        .uri("https://www.baidu.com"))
 //                .route("he",r->r.header("X-Request-Id","/d+")
 //                .uri("https://www.baidu.com"))
-                .route("get",r->r.method("GET").and().path("/about").uri("http://ityouknow.com"))
-                .build();
-    }
+//                .route("get",r->r.method("GET").and().path("/about").uri("http://ityouknow.com"))
+//                .build();
+//    }
 
 }

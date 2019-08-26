@@ -31,12 +31,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class ConfigController {
 
-    @Value("${spring-config}")
-    private String hello;
+//    @Value("${spring-config}")
+//    private String hello;
 
 
     @RequestMapping("/hello")
     public String from() {
-        return this.hello;
+        return "hello";
     }
 }
